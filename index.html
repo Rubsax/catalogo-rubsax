@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo Oficial de Partituras | Rubsax Partituras</title>
+  <meta name="description" content="Consulte todas as músicas disponíveis no acervo Rubsax Partituras: Louvores Gospel, Hinos da Harpa Cristã e Repertório Geral para instrumentos em Sib, Dó, Mib e Clave de Fá." />
+  <style>
+    :root {
+      --bg-page: #f4f5f8;
+      --bg-header: #0f1117;
+      --bg-header-grad: linear-gradient(135deg, #0d0f14 0%, #181c26 60%, #231d14 100%);
+      --bg-card: #ffffff;
+      --text-main: #18181b;
+      --text-muted: #64748b;
+      --gold-primary: #f59e0b;
+      --gold-hover: #d97706;
+      --gold-light: #fef3c7;
+      --gold-border: #fcd34d;
+      --border-soft: #e2e8f0;
+      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --radius-lg: 14px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Modo compacto quando embutido via iframe na Yampi (?embed=1) */
+    body.embed-mode .site-header {
+      padding: 20px 16px 24px;
+    }
+    body.embed-mode .site-footer {
+      display: none;
+    }
+
+    /* ================= CABEÇALHO ESCURO ELEGANTE ================= */
+    .site-header {
+      background: var(--bg-header-grad);
+      color: #ffffff;
+      padding: 32px 20px 38px;
+      border-bottom: 3px solid var(--gold-primary);
+      position: relative;
+    }
+
+    .header-container {
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .brand-title span {
+      color: #fbbf24;
+    }
+
+    .brand-subtitle {
+      font-size: 0.94rem;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    .btn-store-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #111827;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-store-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+      filter: brightness(1.04);
+    }
+
+    /* ================= CARDS DE NÚMEROS DO ACERVO (KPIs) ================= */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 13px 16px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+      text-align: left;
+      color: #ffffff;
+    }
+
+    .stat-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(251, 191, 36, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .stat-card.active {
+      background: rgba(245, 158, 11, 0.16);
+      border-color: #fbbf24;
+    }
+
+    .stat-number {
+      font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+      font-weight: 800;
+      color: #fbbf24;
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ================= CAMPO DE BUSCA INSTANTÂNEA ================= */
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1.15rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 48px 16px 48px;
+      font-size: 1.02rem;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: #ffffff;
+      color: #0f172a;
+      outline: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e2e8f0;
+      color: #475569;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-clear:hover {
+      background: #cbd5e1;
+      color: #0f172a;
+    }
+
+    /* ================= ÁREA PRINCIPAL E BARRA DE FILTROS ================= */
+    .main-container {
+      max-width: 1220px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+      flex: 1;
+    }
+
+    .filters-panel {
+      background: #ffffff;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .category-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .cat-tab {
+      border: 1px solid var(--border-soft);
+      background: #f8fafc;
+      color: #334155;
+      padding: 9px 15px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cat-tab:hover {
+      border-color: #cbd5e1;
+      background: #f1f5f9;
+    }
+
+    .cat-tab.active {
+      background: #18181b;
+      color: #fbbf24;
+      border-color: #18181b;
+      box-shadow: 0 3px 10px rgba(24, 24, 27, 0.16);
+    }
+
+    .cat-tab-badge {
+      font-size: 0.75rem;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: rgba(100, 116, 139, 0.15);
+      color: inherit;
+    }
+
+    .cat-tab.active .cat-tab-badge {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fde68a;
+    }
+
+    .selectors-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .filter-select:focus {
+      border-color: var(--gold-primary);
+    }
+
+    /* ================= BARRA DE STATUS / CONTADOR ================= */
+    .results-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      padding: 0 4px;
+    }
+
+    .results-counter {
+      font-size: 0.95rem;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .results-counter strong {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .tuning-legend {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* ================= GRADE DE CARDS DE MÚSICAS ================= */
+    .songs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
+    .song-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .song-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+
+    .card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .cat-gospel {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .cat-harpa {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    .cat-geral {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .pack-included {
+      font-size: 0.74rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .song-title {
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .song-artist {
+      font-size: 0.88rem;
+      color: #64748b;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .card-bottom {
+      border-top: 1px dashed #e2e8f0;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tunings-label {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .tunings-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tuning-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 7px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tuning-sib {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-color: #bfdbfe;
+    }
+
+    .tuning-do {
+      background: #f0fdf4;
+      color: #15803d;
+      border-color: #bbf7d0;
+    }
+
+    .tuning-mib {
+      background: #fffbeb;
+      color: #b45309;
+      border-color: #fde68a;
+    }
+
+    .tuning-fa {
+      background: #faf5ff;
+      color: #7e22ce;
+      border-color: #e9d5ff;
+    }
+
+    .tuning-badge.highlighted {
+      outline: 2px solid var(--gold-primary);
+      transform: scale(1.03);
+    }
+
+    /* ================= ESTADO VAZIO / CARREGAMENTO ================= */
+    .empty-state {
+      background: #ffffff;
+      border: 1px dashed #cbd5e1;
+      border-radius: var(--radius-lg);
+      padding: 48px 24px;
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.2rem;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    .btn-reset {
+      background: #18181b;
+      color: #fbbf24;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ================= BANNER DE CONVERSÃO E RODAPÉ ================= */
+    .cta-banner {
+      margin-top: 36px;
+      background: var(--bg-header-grad);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      box-shadow: var(--shadow-md);
+    }
+
+    .cta-banner h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fbbf24;
+      margin-bottom: 4px;
+    }
+
+    .cta-banner p {
+      color: #cbd5e1;
+      font-size: 0.94rem;
+    }
+
+    .site-footer {
+      background: #0f1117;
+      color: #94a3b8;
+      text-align: center;
+      padding: 22px 16px;
+      font-size: 0.86rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    .site-footer a {
+      color: #fbbf24;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ================= RESPONSIVIDADE (CELULAR E TABLET) ================= */
+    @media (max-width: 860px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .filters-panel {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .selectors-group {
+        width: 100%;
+      }
+      .filter-select {
+        flex: 1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .site-header {
+        padding: 22px 14px 26px;
+      }
+      .header-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-store-cta {
+        justify-content: center;
+        width: 100%;
+      }
+      .category-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+      }
+      .cat-tab {
+        justify-content: center;
+        text-align: center;
+        padding: 10px 8px;
+        font-size: 0.82rem;
+      }
+      .songs-grid {
+        grid-template-columns: 1fr;
+      }
+      .cta-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO PRINCIPAL -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-top">
+        <div class="brand-group">
+          <div class="brand-icon" aria-hidden="true">🎷</div>
+          <div>
+            <h1 class="brand-title">Rubsax <span>Partituras</span></h1>
+            <p class="brand-subtitle">Catálogo Oficial • PDF + Arquivo Editável (MuseScore) + Playback MP3</p>
+          </div>
+        </div>
+        <a href="https://www.rubsax.com.br" target="_blank" rel="noopener noreferrer" class="btn-store-cta">
+          🛒 Acessar Loja Oficial (rubsax.com.br)
+        </a>
+      </div>
+
+      <!-- NÚMEROS DO ACERVO (CLICÁVEIS PARA FILTRAR) -->
+      <div class="stats-grid" role="region" aria-label="Resumo em números do acervo">
+        <button type="button" class="stat-card active" data-stat-cat="all" onclick="selecionarCategoria('all')">
+          <div class="stat-number" id="stat-total">0</div>
+          <div class="stat-label">Músicas no Acervo Completo</div>
+        </button>
+        <button type="button" class="stat-card" data-stat-cat="Louvores Gospel" onclick="selecionarCategoria('Louvores Gospel')">
+          <div class="stat-number" id="stat-gospel">0</div>
+          <div class="stat-label">Louvores Gospel</div>
+        </button>
+        <button type="button" class="stat-card" data-stat-cat="Hinos da Harpa Cristã" onclick="selecionarCategoria('Hinos da Harpa Cristã')">
+          <div class="stat-number" id="stat-harpa">0</div>
+          <div class="stat-label">Hinos da Harpa Cristã</div>
+        </button>
+        <button type="button" class="stat-card" data-stat-cat="Repertório Geral" onclick="selecionarCategoria('Repertório Geral')">
+          <div class="stat-number" id="stat-geral">0</div>
+          <div class="stat-label">Repertório Geral</div>
+        </button>
+      </div>
+
+      <!-- BUSCA INSTANTÂNEA SEM ACENTOS -->
+      <div class="search-wrapper">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Pesquise pelo nome da música, número do hino (ex: 597) ou cantor/artista..."
+          autocomplete="off"
+          aria-label="Pesquisar música ou artista"
+        />
+        <button type="button" id="search-clear" class="search-clear" title="Limpar busca" aria-label="Limpar busca">×</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main-container">
+    <!-- PAINEL DE FILTROS SEPARADOS -->
+    <section class="filters-panel" aria-label="Filtros do catálogo">
+      <div class="category-tabs" role="tablist">
+        <button type="button" class="cat-tab active" data-cat="all" onclick="selecionarCategoria('all')">
+          Todos os Pacotes <span class="cat-tab-badge" id="badge-all">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-cat="Louvores Gospel" onclick="selecionarCategoria('Louvores Gospel')">
+          Louvores Gospel <span class="cat-tab-badge" id="badge-gospel">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-cat="Hinos da Harpa Cristã" onclick="selecionarCategoria('Hinos da Harpa Cristã')">
+          Hinos da Harpa Cristã <span class="cat-tab-badge" id="badge-harpa">0</span>
+        </button>
+        <button type="button" class="cat-tab" data-cat="Repertório Geral" onclick="selecionarCategoria('Repertório Geral')">
+          Repertório Geral <span class="cat-tab-badge" id="badge-geral">0</span>
+        </button>
+      </div>
+
+      <div class="selectors-group">
+        <select id="instrument-select" class="filter-select" aria-label="Filtrar por instrumento ou afinação">
+          <option value="all">🎷 Todos os Instrumentos</option>
+          <option value="Sib">🎺 Sib (Clarinete, Trompete, Sax Tenor/Soprano)</option>
+          <option value="Dó">🎻 Dó (Flauta, Teclado, Oboé, Violino)</option>
+          <option value="Mib">🎷 Mib (Sax Alto, Barítono, Requinta)</option>
+          <option value="Clave de Fá">🎼 Clave de Fá (Trombone, Eufônio, Violoncelo)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- CONTADOR DINÂMICO -->
+    <div class="results-toolbar">
+      <div class="results-counter" id="results-counter">
+        Carregando catálogo de partituras...
+      </div>
+      <div class="tuning-legend">
+        <span>Afinações inclusas:</span>
+        <strong>Sib • Dó • Mib • Clave de Fá</strong>
+      </div>
+    </div>
+
+    <!-- GRADE DE MÚSICAS -->
+    <div id="songs-container" class="songs-grid"></div>
+
+    <!-- BANNER DE CONVERSÃO -->
+    <section class="cta-banner">
+      <div>
+        <h2>Encontrou as músicas que procurava?</h2>
+        <p>Adquira partituras avulsas ou o Super Pacote Completo com PDF, Playback e arquivo MuseScore na nossa loja oficial.</p>
+      </div>
+      <a href="https://www.rubsax.com.br" target="_blank" rel="noopener noreferrer" class="btn-store-cta">
+        Ver Pacotes e Partituras na Loja →
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Rubsax Partituras • Todos os direitos reservados • <a href="https://www.rubsax.com.br" target="_blank" rel="noopener noreferrer">www.rubsax.com.br</a></p>
+  </footer>
+
+  <script>
+    // Snapshot local embutido automaticamente pelo organizador_rubsax.py como fallback caso
+    // o arquivo seja aberto direto via duplo-clique (file://) onde o navegador bloqueia fetch.
+    // Em produção (GitHub Pages / catalogo.rubsax.com.br), fetch('./catalogo.json') é sempre usado!
+    const FALLBACK_CATALOGO = /*__CATALOGO_FALLBACK_START__*/[{"titulo": "01 H.C - Chuvas de Graça", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "02 H.C - Saudosa Lembrança", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "03 H.C - Plena Paz", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "04 H.C - Deus Velará Por Ti", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "05 H.C. - Ó Desce Fogo Santo", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "06 H.C - Na Maldição da Cruz", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "07 H.C - Cristo Cura, Sim!", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "08 H.C. - Cristo, O Fiel Amigo", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "9ª Sinfonia Beethoven", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "10 H.C. - Eu Te Louvo", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "11 H.C. - Ó Cristão; Eia Avante", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "12 H.C. - Vem Já Pecador", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "15 H.C. - Conversão", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "16 H.C. - Despertar Para o Trabalho", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "18 H.C. - Grata Nova", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "20 H.C. - Olhai Pra o Cordeiro de Deus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "22 H.C. - Ceia do Senhor", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "26 H.C. - A Formosa Jerusalém", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "33 H.C. - Com Tua Mão Segura", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "36 H.C. - O Exilado", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "39 H.C. - Alvo Mais Que a Neve", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "45 H.C. - Redentor Onipotente", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "46 H.C. - Um Pendão Real", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "48 H.C. - O Dia do Triunfo de Jesus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "56 H.C. - Tudo em Cristo", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "61 H.C. - Deus Tomará Conta de Ti", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "63 H.C. - Acordai, Acordai", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "65 H.C. - Quem Irá", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "69 H.C. - Jesus Quebrou os Meus Grilhões", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "75 H.C. - Em Jesus Tens a Palma da Vitória", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "77 H.C. - Guarda o Contacto", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "84 H.C. - O Grande Eu Sou", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "86 H.C. - Satisfeito com Cristo", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "88 H.C. - Revela a Nós Senhor", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "93 H.C. - Há Trabalho Pronto", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "94 H.C. - Na Jerusalém de Deus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "96 H.C. - Deixa Penetrar a Luz", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "100 H.C. - O Bom Consolador", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "104 H.C. - Jesus Procura a Ovelha", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "107 H.C. - Firme nas Promessas", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "108 H.C - Pelejar por Jesus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "110 H.C. - Clama; Jesus, Jesus!", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "111 H.C. - Que Mudança!", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "115 H.C. - Trabalhai e Orai", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "116 H.C. - Livre Estou", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "120 H.C. - Noite de Paz", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "121 H.C. - Maravilhoso é Jesus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "123 H.C. - Cristo Voltará", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "124 H.C - Adoração", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "126 H.C. - Bem Aventurança do Crente", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "127 H.C. - O Senhor da Ceifa Chama", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "131 H.C. - De Valor em Valor", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "133 H.C. - No Rol do Livro", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "137 H.C. - Liberto da Escravidão", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "139 H.C. - Jesus, Meu Eterno Redentor", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "141 H.C. - Guia-me Sempre, Meu Senhor", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "144 H.C. - Vem à Assembléia de Deus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "145 H.C. - União do Crente com Seu Senhor", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "147 H.C. - Servir a Jesus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "149 H.C. - Canto do Pescador", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "151 H.C. - Fala. Jesus Querido", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "155 H.C. - Imploramos Teu Poder", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "156 H.C. - A Ovelha Perdida", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "525 H.C. - Vencendo Vem Jesus", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "526 H.C. - Grandioso És Tu", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "545 H.C. - Porque Ele Vive", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "547 H.C. - O Rei Está Voltando", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "577 H.C. - Em Fervente Oração", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "578 H.C. - Sossegai!", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "581 H.C. - Castelo Forte", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "597 H.C. - Graças Dou", "artista": "Harpa Cristã", "categoria": "Hinos da Harpa Cristã", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "A Benção", "artista": "Gabriel Guedes", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "A Colheita", "artista": "Alda Célia", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "A Ele a Glória", "artista": "Diante do Trono", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "A Familia Addams", "artista": "Música Tema", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "A Melhor Coisa Que Eu Já Fiz", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "A Thousand Years", "artista": "Christina Perri", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Agnus Dei", "artista": "David Quinlan", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Águas Purificadoras", "artista": "Diante do Trono", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Ah, Jesus + Coração Igual ao Teu", "artista": "Julliany Souza", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Aleluia", "artista": "(Hallelujah) - Leonard Cohen", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Asa Branca", "artista": "Luiz Gonzaga", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Astronomia", "artista": "Coffin Dance", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Bate o Sino (Jingle Bells)", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Bondade de Deus", "artista": "Isaías Saad", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Caminho no Deserto (Way Maker)", "artista": "Nívea Soares", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Canção Que Não Envelhece", "artista": "Julliany Souza, Lukas Agostinho", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Careless Whisper", "artista": "George Michael", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Cem Ovelhas", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Colossenses e Suas Linhas de Amor", "artista": "Fhop Music", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Como é Grande o meu Amor por Você", "artista": "Roberto Carlos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Como Flecha", "artista": "Samuel Dias", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Creio que Tu És a Cura", "artista": "Gabriela Rocha", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Dance Monkey", "artista": "Tones and I", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "De Volta a Inocência", "artista": "Quatro por Um", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Deserto", "artista": "Maria Marçal", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Deus de Promessa", "artista": "Davi Sacer", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Deus é Deus", "artista": "Delino Marçal", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "É Ele", "artista": "Drops INA", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Então é Natal", "artista": "Simone", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Escape", "artista": "Renascer Praise", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Espumas ao Vento", "artista": "Flávio José", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu Cuido de Ti", "artista": "Canção e Louvor", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu e Minha Casa", "artista": "Julliany Souza", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu Navegarei", "artista": "Gabriela Rocha", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu só quero adorar", "artista": "Gerson Rufino", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu Também (100 Bilhões X)", "artista": "Marine Friesen", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu Te Amo", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu Tenho Você", "artista": "Marcelo Markes", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Eu vou Orar", "artista": "Nair Nany", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Feliz Serás", "artista": "Denise Cardoso", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Fico Assim Sem Você", "artista": "Adriana Calcanhotto", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Funk do Sax", "artista": "Remix", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Grande é o Senhor", "artista": "Adhemar de Campos", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Havana", "artista": "Camila Cabello", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Hino Nacional Brasileiro", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Hoje Sou Feliz", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "I don't want to talk about it", "artista": "Rod Stewart", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Jesus Meu Guia É", "artista": "Raiz Coral", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "João 20 + Pra Sempre", "artista": "Vitor Santana", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Joao e Maria", "artista": "Chico Buarque", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Lindo Momento", "artista": "Julliany Souza", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Marcha Nupcial", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Married Life", "artista": "UP", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Música Triste do Chaves", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "My Heart Will Go On (Titanic)", "artista": "Celine Dion", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Nada Além do Sangue", "artista": "Fernandinho", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Naruto", "artista": "Sadness and Sorrow", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Ninguém Explica Deus", "artista": "Preto no Branco", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Nosso Primeiro Beijo", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Amor é Tudo", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Escudo", "artista": "Voz da Verdade", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Fogo Arderá", "artista": "Alexsander Lucio", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Lamento de Israel", "artista": "Sérgio Lopes", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Maior Vilão Sou Eu", "artista": "Sarah Beatriz", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Nome Dele", "artista": "Sued Silva", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "O Rosto de Cristo", "artista": "Feliciano Amaral", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Palavras", "artista": "Lauriete", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Parabens Pra Voce", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Perfect", "artista": "Ed Sheeran", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Photograph", "artista": "Ed Sheeran", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Pode Morar Aqui", "artista": "Theo Rubia", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Porque Eu Te Amei", "artista": "Ton Carfi", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Posso Clamar", "artista": "Eyshila", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Pra falar ao teu coração", "artista": "Hinos Avulsos CCB", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Preciso de Ti", "artista": "Diante do Trono", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Primeira Essência", "artista": "Anderson Freire", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Quase Morri", "artista": "Marcos Antonio", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Quem é Esse", "artista": "Julliany Souza", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Raridade", "artista": "Anderson Freire", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Reacende a Chama", "artista": "Sued Silva", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Rush E", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Se essa rua fosse minha", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Se Eu Não Te Ouvir", "artista": "Sarah Farias", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Set Fire To The Rain", "artista": "Adele", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Sinceridade", "artista": "Alisson e Neide", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Snowman", "artista": "Sia", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Sobre as Águas", "artista": "Davi Sacer", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Sorriso Resplandecente DBGT", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Superfantástico", "artista": "Turma do Balão Mágico", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Tá chorando por que", "artista": "Amanda Wanessa", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Te Agradeço", "artista": "Diante do Trono", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Te Louvarei", "artista": "Davi Sacer", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Tens", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "The Pink Panther Theme", "artista": "Diversos", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Trem Bala", "artista": "Ana Vilela", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Tu És + Águas Purificadoras", "artista": "Fhop Music", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Tua Presença", "artista": "Paulo Neto", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Tudo é Perda", "artista": "Felipe Rodrigues", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Único", "artista": "Fernandinho", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Vem me Buscar", "artista": "Jefferson e Suellen", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Vida aos Sepulcros", "artista": "Gabriela Rocha", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Viva com Deus", "artista": "Ozéias de Paula", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Você é Especial", "artista": "Daniel e Samuel", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "We Are The Champions", "artista": "Queen", "categoria": "Repertório Geral", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}, {"titulo": "Yeshua", "artista": "Salvaon", "categoria": "Louvores Gospel", "afinacoes": ["Sib", "Dó", "Mib", "Clave de Fá"]}]/*__CATALOGO_FALLBACK_END__*/;
+
+    const TUNING_DETAILS = {
+      "Sib": {
+        css: "tuning-sib",
+        tooltip: "Clarinete, Trompete, Sax Tenor e Sax Soprano (Instrumentos em Sib / Bb)"
+      },
+      "Dó": {
+        css: "tuning-do",
+        tooltip: "Flauta Transversal, Teclado, Oboé e Violino (Instrumentos em Dó / C)"
+      },
+      "Mib": {
+        css: "tuning-mib",
+        tooltip: "Sax Alto, Sax Barítono e Requinta (Instrumentos em Mib / Eb)"
+      },
+      "Clave de Fá": {
+        css: "tuning-fa",
+        tooltip: "Trombone, Eufônio/Bombardino e Violoncelo (Clave de Fá)"
+      }
+    };
+
+    let catalogoCompleto = [];
+    let filtroCategoria = "all";
+    let filtroInstrumento = "all";
+    let termoBusca = "";
+
+    // Detecta modo embed (?embed=1) para integração limpa via iframe na Yampi
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("embed") === "1" || window.self !== window.top) {
+      document.body.classList.add("embed-mode");
+    }
+
+    function normalizarTexto(str) {
+      if (!str) return "";
+      return String(str)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+    }
+
+    function escaparHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function classeCategoria(cat) {
+      if (cat === "Louvores Gospel") return "cat-gospel";
+      if (cat === "Hinos da Harpa Cristã") return "cat-harpa";
+      return "cat-geral";
+    }
+
+    function atualizarEstatisticas() {
+      const total = catalogoCompleto.length;
+      let gospel = 0;
+      let harpa = 0;
+      let geral = 0;
+
+      for (const item of catalogoCompleto) {
+        if (item.categoria === "Louvores Gospel") gospel++;
+        else if (item.categoria === "Hinos da Harpa Cristã") harpa++;
+        else if (item.categoria === "Repertório Geral") geral++;
+      }
+
+      document.getElementById("stat-total").textContent = total;
+      document.getElementById("stat-gospel").textContent = gospel;
+      document.getElementById("stat-harpa").textContent = harpa;
+      document.getElementById("stat-geral").textContent = geral;
+
+      document.getElementById("badge-all").textContent = total;
+      document.getElementById("badge-gospel").textContent = gospel;
+      document.getElementById("badge-harpa").textContent = harpa;
+      document.getElementById("badge-geral").textContent = geral;
+    }
+
+    function selecionarCategoria(novaCat) {
+      filtroCategoria = novaCat;
+
+      document.querySelectorAll(".cat-tab").forEach((btn) => {
+        btn.classList.toggle("active", btn.getAttribute("data-cat") === novaCat);
+      });
+
+      document.querySelectorAll(".stat-card").forEach((card) => {
+        card.classList.toggle("active", card.getAttribute("data-stat-cat") === novaCat);
+      });
+
+      renderizarCatalogo();
+    }
+
+    function limparFiltros() {
+      filtroCategoria = "all";
+      filtroInstrumento = "all";
+      termoBusca = "";
+      document.getElementById("search-input").value = "";
+      document.getElementById("search-clear").style.display = "none";
+      document.getElementById("instrument-select").value = "all";
+      selecionarCategoria("all");
+    }
+
+    function notificarAlturaIframe() {
+      if (window.parent && window.parent !== window) {
+        const altura = document.documentElement.scrollHeight;
+        window.parent.postMessage({ type: "rubsax-catalog-height", height: altura }, "*");
+      }
+    }
+
+    function renderizarCatalogo() {
+      const container = document.getElementById("songs-container");
+      const counterEl = document.getElementById("results-counter");
+      const buscaNorm = normalizarTexto(termoBusca);
+
+      const filtradas = catalogoCompleto.filter((item) => {
+        if (filtroCategoria !== "all" && item.categoria !== filtroCategoria) {
+          return false;
+        }
+        if (filtroInstrumento !== "all") {
+          const afins = Array.isArray(item.afinacoes) ? item.afinacoes : [];
+          if (!afins.includes(filtroInstrumento)) {
+            return false;
+          }
+        }
+        if (buscaNorm) {
+          const alvo = item._searchIndex || normalizarTexto(item.titulo + " " + item.artista + " " + item.categoria);
+          if (!alvo.includes(buscaNorm)) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      const totalGeral = catalogoCompleto.length;
+      const qtd = filtradas.length;
+
+      if (qtd === totalGeral) {
+        counterEl.innerHTML = `Exibindo <strong>${qtd}</strong> músicas disponíveis`;
+      } else {
+        counterEl.innerHTML = `Exibindo <strong>${qtd}</strong> de <strong>${totalGeral}</strong> músicas disponíveis`;
+      }
+
+      if (qtd === 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <h3>Nenhuma música encontrada para este filtro</h3>
+            <p>Tente buscar por outro termo ou limpar os filtros selecionados.</p>
+            <button type="button" class="btn-reset" onclick="limparFiltros()">Mostrar Todas as Músicas</button>
+          </div>
+        `;
+        notificarAlturaIframe();
+        return;
+      }
+
+      const htmlCards = filtradas.map((item) => {
+        const catClass = classeCategoria(item.categoria);
+        const afins = Array.isArray(item.afinacoes) ? item.afinacoes : [];
+
+        const badgesHtml = afins.map((af) => {
+          const info = TUNING_DETAILS[af] || { css: "tuning-sib", tooltip: af };
+          const isHigh = filtroInstrumento !== "all" && filtroInstrumento === af ? "highlighted" : "";
+          return `<span class="tuning-badge ${info.css} ${isHigh}" title="${escaparHtml(info.tooltip)}">${escaparHtml(af)}</span>`;
+        }).join("");
+
+        return `
+          <article class="song-card">
+            <div class="card-top">
+              <div class="card-meta-row">
+                <span class="cat-pill ${catClass}">${escaparHtml(item.categoria)}</span>
+                <span class="pack-included">PDF + MSCZ + Playback</span>
+              </div>
+              <h2 class="song-title">${escaparHtml(item.titulo)}</h2>
+              <div class="song-artist">🎤 ${escaparHtml(item.artista)}</div>
+            </div>
+            <div class="card-bottom">
+              <div class="tunings-label">Afinações disponíveis:</div>
+              <div class="tunings-list">
+                ${badgesHtml}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      container.innerHTML = htmlCards;
+      notificarAlturaIframe();
+    }
+
+    async function carregarCatalogo() {
+      let dados = null;
+      try {
+        const resposta = await fetch("./catalogo.json", { cache: "no-cache" });
+        if (!resposta.ok) {
+          throw new Error("HTTP " + resposta.status);
+        }
+        dados = await resposta.json();
+      } catch (err) {
+        if (Array.isArray(FALLBACK_CATALOGO) && FALLBACK_CATALOGO.length > 0) {
+          dados = FALLBACK_CATALOGO;
+        } else {
+          const container = document.getElementById("songs-container");
+          document.getElementById("results-counter").textContent = "Não foi possível carregar ./catalogo.json";
+          container.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <h3>Arquivo catalogo.json ainda não gerado</h3>
+              <p>Execute <code>python organizador_rubsax.py</code> e escolha a opção <strong>[2]</strong> para gerar o catálogo.</p>
+            </div>
+          `;
+          return;
+        }
+      }
+
+      catalogoCompleto = (Array.isArray(dados) ? dados : []).map((item) => ({
+        ...item,
+        _searchIndex: normalizarTexto(`${item.titulo || ""} ${item.artista || ""} ${item.categoria || ""}`)
+      }));
+
+      atualizarEstatisticas();
+      renderizarCatalogo();
+    }
+
+    // Eventos de interface
+    const searchInput = document.getElementById("search-input");
+    const searchClear = document.getElementById("search-clear");
+    const instrumentSelect = document.getElementById("instrument-select");
+
+    searchInput.addEventListener("input", (e) => {
+      termoBusca = e.target.value || "";
+      searchClear.style.display = termoBusca.length > 0 ? "inline-flex" : "none";
+      renderizarCatalogo();
+    });
+
+    searchClear.addEventListener("click", () => {
+      termoBusca = "";
+      searchInput.value = "";
+      searchClear.style.display = "none";
+      searchInput.focus();
+      renderizarCatalogo();
+    });
+
+    instrumentSelect.addEventListener("change", (e) => {
+      filtroInstrumento = e.target.value || "all";
+      renderizarCatalogo();
+    });
+
+    window.addEventListener("resize", notificarAlturaIframe);
+    carregarCatalogo();
+  </script>
+</body>
+</html>
